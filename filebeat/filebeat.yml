@@ -1,0 +1,87 @@
+# Using Environment variables
+#  https://www.elastic.co/guide/en/beats/functionbeat/current/using-environ-vars.html
+SYMBOL: ${symbol:GOOGL}
+# ============================== Filebeat modules ==============================
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+# ============================== Filebeat inputs ===============================
+filebeat.inputs:
+
+  # filestream is an input for collecting log messages from files.
+  - type: httpjson
+    interval: 120m
+    config_version: 2
+    request.url: https://cloud.iexapis.com/stable/stock/${SYMBOL:GOOGL}/intraday-prices?token=<>
+    request.method: GET
+    processors:
+      - decode_json_fields:
+          fields: ["message"]
+          target: "json"
+      - convert:
+          fields:
+            - {from: "json.average", type: "double"}
+            - {from: "json.date", type: "string"}
+            - {from: "json.high", type: "double"}
+            - {from: "json.minute", type: "string"}
+            - {from: "json.notional", type: "long"}
+            - {from: "json.open", type: "double"}
+            - {from: "json.volume", type: "long"}
+            - {from: "json.close", type: "double"}
+            - {from: "json.label", type: "string"}
+            - {from: "json.low", type: "double"}
+            - {from: "json.numberOfTrades", type: "long"}
+
+
+# ================================== General - Output Configuration ============
+
+# Optional fields that you can specify to add additional information to the
+# output.console:
+#   pretty: true
+
+# output.file:
+#   path: "./filebeat_output"
+#   filename: ${SYMBOL:GOOGL}
+#   rotate_every_kb: 50
+#   rotate_on_startup: true
+
+output.logstash:
+  hosts: ["localhost:5044"]
+
+# ================================== Logging ===================================
+
+# Sets log level. The default log level is info.
+# Available log levels are: error, warning, info, debug
+logging.metrics.enabled:
+logging.level: debug
+
+# ================================= Processors =================================
+processors:
+  # add ID per https://www.elastic.co/guide/en/beats/filebeat/current/add-id.html
+  - add_id:
+      target_field: json.id
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
+  # drop debug messages - https://www.elastic.co/guide/en/beats/filebeat/current/filtering-and-enhancing-data.html#drop-event-example
+  - drop_event:
+      when:
+        regexp:
+          message: "^DBG:"
+  # add fields https://www.elastic.co/guide/en/beats/filebeat/current/add-fields.html
+  - add_fields:
+      target: json
+      fields:
+        stock: '${SYMBOL:GOOGL}'
+  # drop fields https://www.elastic.co/guide/en/beats/filebeat/current/drop-fields.html
+  - drop_fields:
+      fields: ["agent", "host", "ecs", "input", "event"]
+      ignore_missing: false

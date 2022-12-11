@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "4dfba837-05bf-4618-9fa5-10fd8832fcf7",
+		"name": "BDP Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5506502"
+	},
+	"item": [
+		{
+			"name": "Get Streams",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"message\": \"{\\\"average\\\":93.485,\\\"close\\\":93.525,\\\"date\\\":\\\"2022-12-09\\\",\\\"high\\\":93.525,\\\"label\\\":\\\"03:25 PM\\\",\\\"low\\\":93.465,\\\"minute\\\":\\\"15:25\\\",\\\"notional\\\":121530.5,\\\"numberOfTrades\\\":12,\\\"open\\\":93.49,\\\"volume\\\":1300}\",\n  \"json\": {\n    \"volume\": 1300,\n    \"notional\": 121530.5,\n    \"numberOfTrades\": 12,\n    \"low\": 93.465,\n    \"average\": 93.485,\n    \"label\": \"03:25 PM\",\n    \"open\": 93.49,\n    \"date\": \"2022-12-09\",\n    \"high\": 93.525,\n    \"close\": 93.525,\n    \"minute\": \"15:25\"\n  },\n  \"@version\": \"1\",\n  \"@timestamp\": \"2022-12-09T20:42:06.746Z\",\n  \"id\": \"e3ab9777-18c2-4452-821e-70f497e07297\",\n  \"event\": {\n    \"original\": \"{\\\"average\\\":93.485,\\\"close\\\":93.525,\\\"date\\\":\\\"2022-12-09\\\",\\\"high\\\":93.525,\\\"label\\\":\\\"03:25 PM\\\",\\\"low\\\":93.465,\\\"minute\\\":\\\"15:25\\\",\\\"notional\\\":121530.5,\\\"numberOfTrades\\\":12,\\\"open\\\":93.49,\\\"volume\\\":1300}\"\n  },\n  \"StreamName\": {\n    \"StreamName\": \"test-stream\"\n  },\n  \"tags\": [\n    \"beats_input_codec_plain_applied\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://77u04d7jzf.execute-api.us-east-2.amazonaws.com/test/streams",
+					"protocol": "https",
+					"host": [
+						"77u04d7jzf",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"test",
+						"streams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Stream",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://77u04d7jzf.execute-api.us-east-2.amazonaws.com/test/streams/small-demo-stream",
+					"protocol": "https",
+					"host": [
+						"77u04d7jzf",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"test",
+						"streams",
+						"small-demo-stream"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Record",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"@version\": \"1\",\n\"message\": \"{\\\"average\\\":null,\\\"close\\\":null,\\\"date\\\":\\\"2022-12-09\\\",\\\"high\\\":null,\\\"label\\\":\\\"03:45 PM\\\",\\\"low\\\":null,\\\"minute\\\":\\\"15:45\\\",\\\"notional\\\":null,\\\"numberOfTrades\\\":null,\\\"open\\\":null,\\\"volume\\\":null}\",\n\"tags\": [\n  \"beats_input_codec_plain_applied\"\n],\n\"json\": {\n  \"notional\": null,\n  \"label\": \"03:45 PM\",\n  \"stock\": \"NKE\",\n  \"volume\": null,\n  \"open\": null,\n  \"date\": \"2022-12-09\",\n  \"close\": null,\n  \"minute\": \"15:45\",\n  \"high\": null,\n  \"id\": \"Co-k_YQB-ScOW673HCdV\",\n  \"low\": null,\n  \"numberOfTrades\": null,\n  \"average\": null\n},\n\"event\": {\n  \"original\": \"{\\\"average\\\":null,\\\"close\\\":null,\\\"date\\\":\\\"2022-12-09\\\",\\\"high\\\":null,\\\"label\\\":\\\"03:45 PM\\\",\\\"low\\\":null,\\\"minute\\\":\\\"15:45\\\",\\\"notional\\\":null,\\\"numberOfTrades\\\":null,\\\"open\\\":null,\\\"volume\\\":null}\"\n},\n\"id\": \"135d1733-1c39-4000-b068-68868e60ad00\",\n\"@timestamp\": \"2022-12-10T20:05:01.653Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://77u04d7jzf.execute-api.us-east-2.amazonaws.com/test/streams/small-demo-stream/records",
+					"protocol": "https",
+					"host": [
+						"77u04d7jzf",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"test",
+						"streams",
+						"small-demo-stream",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Stream",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://77u04d7jzf.execute-api.us-east-2.amazonaws.com/test/streams/delete-me-stream",
+					"protocol": "https",
+					"host": [
+						"77u04d7jzf",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"test",
+						"streams",
+						"delete-me-stream"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
