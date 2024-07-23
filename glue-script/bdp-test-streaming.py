@@ -63,7 +63,7 @@ def processBatch(data_frame, batchId):
 
 # Read from Kinesis Data Stream
 kinesis_options = {
-    "streamARN": "arn:aws:kinesis:us-east-2:902034129214:stream/my-stream",
+    "streamARN": "",
     "startingPosition": "TRIM_HORIZON",
     "inferSchema": "true",
     "classification": "json"
